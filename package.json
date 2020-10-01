@@ -1,6 +1,6 @@
 {
   "name": "string-crypto",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
   "main": "dist/index.js",
   "author": "Jean M. Lescure",
@@ -9,7 +9,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
-    "postinstall": "yarn link && yarn link string-crypto"
+    "prepare": "yarn link && yarn link string-crypto"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",

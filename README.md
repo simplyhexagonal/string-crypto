@@ -42,7 +42,7 @@ const options = {
   salt: '2f0ijf2039j23r09j2fg45o9ng98um4o',
   iterations: 10,
   keylen: 256 / 8, // must be equivalent to 16, 24 or 32 bytes
-  digest: 'sha512', // one of: 'md5' | 'sha1' | 'sha224' | 'sha256' | 'sha384' | 'sha512' | 'rmd160' | 'ripemd160'
+  digest: 'sha512' as const, // one of: 'md5' | 'sha1' | 'sha224' | 'sha256' | 'sha384' | 'sha512' | 'rmd160' | 'ripemd160'
 };
 
 const {
