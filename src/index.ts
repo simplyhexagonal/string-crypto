@@ -56,7 +56,7 @@ const deriveKey = (
   return pbkdf2Sync(password, salt, iterations, keylen, digest);
 };
 
-class StringCrypt {
+class StringCrypto {
   private _deriveKeyOptions: DeriveKeyOpts;
 
   constructor(options?: DeriveKeyOpts) {
@@ -118,4 +118,4 @@ class StringCrypt {
   };
 }
 
-export default StringCrypt;
+export default StringCrypto;

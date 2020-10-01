@@ -1,4 +1,4 @@
-# String Crypt
+# String Crypto
 
 Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512).
 
@@ -8,16 +8,16 @@ Please consider:
 
 - [Buying me a coffee](https://www.buymeacoffee.com/jeanlescure) :coffee:
 - Supporting me on [Patreon](https://www.patreon.com/jeanlescure) :trophy:
-- Starring this repo on [Github](https://github.com/jeanlescure/string-crypt) :star2: :octocat:
+- Starring this repo on [Github](https://github.com/jeanlescure/string-crypto) :star2: :octocat:
 
 ## Usage
 
 ```
-yarn add string-crypt
+yarn add string-crypto
 ```
 
 ```ts
-import StringCrypt from 'string-crypt';
+import StringCrypto from 'string-crypto';
 
 const stringToProtect = 'What is the largest (rational) number n such that there are positive integers p, q, r such that 1 - 1/p - 1/q - 1/r = 1/n?';
 
@@ -26,7 +26,7 @@ const password = 'Oh-no,not-again';
 const {
   encryptString,
   decryptString,
-} = new StringCrypt();
+} = new StringCrypto();
 
 let encryptedString = encryptString(topSecret, password);
 
@@ -48,7 +48,7 @@ const options = {
 const {
   encryptString: saferEncrypt,
   decryptString: saferDecrypt,
-} = new StringCrypt(options);
+} = new StringCrypto(options);
 ```
 
 ## Development and build scripts
