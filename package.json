@@ -1,0 +1,34 @@
+{
+  "name": "string-crypt",
+  "version": "1.0.0",
+  "description": "Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
+  "main": "dist/index.js",
+  "author": "Jean M. Lescure",
+  "license": "Apache-2.0",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
+    "postinstall": "yarn link && yarn link string-crypt"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^15.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^9.0.0",
+    "@rollup/plugin-replace": "^2.3.3",
+    "@types/aes-js": "^3.1.1",
+    "@types/node": "^14.11.2",
+    "@types/pbkdf2": "^3.1.0",
+    "concurrently": "^5.3.0",
+    "nodemon": "^2.0.4",
+    "rollup": "^2.27.1",
+    "rollup-plugin-terser": "^7.0.2",
+    "rollup-plugin-typescript2": "^0.27.2",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  },
+  "dependencies": {
+    "aes-js": "^3.1.2",
+    "pbkdf2": "^3.1.1"
+  }
+}

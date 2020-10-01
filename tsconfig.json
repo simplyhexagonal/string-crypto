@@ -1,0 +1,15 @@
+{
+  "ts-node": {
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  },
+  "compilerOptions": {
+    "declaration": true,
+    "target": "ES5",
+    "sourceMap": true,
+    "pretty": true,
+    "esModuleInterop": true
+  },
+  "include": ["src"]
+}
