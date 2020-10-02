@@ -1,11 +1,12 @@
 {
   "name": "string-crypto",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
   "main": "dist/index.js",
   "author": "Jean M. Lescure",
   "license": "Apache-2.0",
   "types": "dist/index.d.ts",
+  "runkitExampleFilename": "./runkit.js",
   "scripts": {
     "build": "rollup -c",
     "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",

@@ -8,7 +8,7 @@ Please consider:
 
 - [Buying me a coffee](https://www.buymeacoffee.com/jeanlescure) :coffee:
 - Supporting me on [Patreon](https://www.patreon.com/jeanlescure) :trophy:
-- Starring this repo on [Github](https://github.com/jeanlescure/string-crypto) :star2: :octocat:
+- Starring this repo on [Github](https://github.com/jeanlescure/string-crypto) :star2:
 
 ## Usage
 
