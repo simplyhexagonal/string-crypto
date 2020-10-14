@@ -2,6 +2,10 @@
 
 Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512).
 
+This project is open to updates by its users, I ensure that PRs are relevant to the community.
+In other words, if you find a bug or want a new feature, please help us by becoming one of the
+[contributors](#contributors-) ✌️ ! See the [contributing section](#contributing).
+
 ## Like this module? :heart:
 
 Please consider:
@@ -84,3 +88,12 @@ yarn build
 This command will build the `dist/index.js`, uglified and tree-shaken so it loads/runs faster.
 
 It also generates a source map and a `dist/index.d.ts` type file for Typescript importing convenience.
+
+## Contributing
+
+Yes, thank you! This plugin is community-driven, most of its features are from different authors.
+Please update the docs and tests and add your name to the `package.json` file.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
