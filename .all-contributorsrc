@@ -1,0 +1,29 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "jeanlescure",
+      "name": "Jean Lescure",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/3330339?v=4",
+      "profile": "https://jeanlescure.cr",
+      "contributions": [
+        "maintenance",
+        "code",
+        "userTesting",
+        "test",
+        "example",
+        "doc"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "string-crypto",
+  "projectOwner": "jeanlescure",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
