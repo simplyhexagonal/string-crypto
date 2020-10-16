@@ -15,7 +15,7 @@
     "decrypt",
     "security"
   ],
-  "homepage": "https://shortunique.id",
+  "homepage": "https://jeanlescure.github.io/string-crypto/",
   "repository": {
     "type": "git",
     "url": "https://github.com/jeanlescure/string-crypto"
