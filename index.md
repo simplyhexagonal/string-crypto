@@ -1,37 +1,99 @@
-## Welcome to GitHub Pages
+# String Crypto
 
-You can use the [editor on GitHub](https://github.com/jeanlescure/string-crypto/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512).
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+This project is open to updates by its users, I ensure that PRs are relevant to the community.
+In other words, if you find a bug or want a new feature, please help us by becoming one of the
+[contributors](#contributors-) ✌️ ! See the [contributing section](#contributing).
 
-### Markdown
+## Like this module? :heart:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Please consider:
 
-```markdown
-Syntax highlighted code block
+- [Buying me a coffee](https://www.buymeacoffee.com/jeanlescure) :coffee:
+- Supporting me on [Patreon](https://www.patreon.com/jeanlescure) :trophy:
+- Starring this repo on [Github](https://github.com/jeanlescure/string-crypto) :star2:
 
-# Header 1
-## Header 2
-### Header 3
+## Usage
 
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
+```
+yarn add string-crypto
 ```
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```ts
+import StringCrypto from 'string-crypto';
 
-### Jekyll Themes
+const stringToProtect = 'What is the largest (rational) number n such that there are positive integers p, q, r such that 1 - 1/p - 1/q - 1/r = 1/n?';
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/jeanlescure/string-crypto/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+const password = 'Oh-no,not-again';
 
-### Support or Contact
+const {
+  encryptString,
+  decryptString,
+} = new StringCrypto();
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+let encryptedString = encryptString(topSecret, password);
+
+console.log('Encrypted String:', encryptedString);
+
+console.log('Decrypted String:', decryptString(encryptedString, password));
+```
+
+## Options
+
+```ts
+const options = {
+  salt: '2f0ijf2039j23r09j2fg45o9ng98um4o',
+  iterations: 10,
+  keylen: 256 / 8, // must be equivalent to 16, 24 or 32 bytes
+  digest: 'sha512' as const, // one of: 'md5' | 'sha1' | 'sha224' | 'sha256' | 'sha384' | 'sha512' | 'rmd160' | 'ripemd160'
+};
+
+const {
+  encryptString: saferEncrypt,
+  decryptString: saferDecrypt,
+} = new StringCrypto(options);
+```
+
+## Development and build scripts
+
+I chose Rollup to handle the transpiling, compression, and any other transformations needed to get
+your Typescript code running as quickly and performant as possible.
+
+This repo uses `runkit.js` to validate code sanity. Why? Because [www.npmjs.com](https://www.npmjs.com/)
+uses [Runkit](https://runkit.com/home) to allow potential users to play with your module, live on
+their browser, which is one of the best ways to convince someone to use your modules in their code.
+Runkit will look for the `runkit.js` by default and display that as the initial playground for the
+user, so by making it the default validation method during development, this encourages proper
+communication with the users of your code.
+
+**Development**
+
+```
+yarn dev
+```
+
+Uses [concurrently]() to run Rollup in watch mode (which means it will transpile to `dist` when you
+save changes to your code), as well as Nodemon to listen for changes in the `dist` directory and
+re-run the `runkit.js` as you modify your source! This includes running node with the `--inspect`
+flag so you can inspect your code using [Google Chrome Dev Tools](https://nodejs.org/en/docs/guides/debugging-getting-started/)
+(by opening `chrome://inspect` in your browser), you're welcome ;)
+
+**Build**
+
+```
+yarn build
+```
+
+This command will build the `dist/index.js`, uglified and tree-shaken so it loads/runs faster.
+
+It also generates a source map and a `dist/index.d.ts` type file for Typescript importing convenience.
+
+## Contributing
+
+Yes, thank you! This plugin is community-driven, most of its features are from different authors.
+Please update the docs and tests and add your name to the `package.json` file.
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
