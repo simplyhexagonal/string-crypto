@@ -28,7 +28,8 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
-    "prepare": "yarn link && yarn link string-crypto"
+    "prepare": "yarn link && yarn link string-crypto",
+    "test": "ts-node test.ts"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",

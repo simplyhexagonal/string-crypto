@@ -25,21 +25,23 @@ const btoa = (str: string): string => {
 
 type StringLike = string | Buffer | Uint8Array | Int8Array | Uint8ClampedArray | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | DataView;
 
+export type Digest = 'md5' | 'sha1' | 'sha224' | 'sha256' | 'sha384' | 'sha512' | 'rmd160' | 'ripemd160';
+
 interface DeriveKeyOpts {
   salt?: StringLike;
   iterations?: number;
   keylen?: number;
-  digest?: 'md5' | 'sha1' | 'sha224' | 'sha256' | 'sha384' | 'sha512' | 'rmd160' | 'ripemd160';
+  digest?: Digest;
 }
 
-const defaultDeriveKeyOpts: DeriveKeyOpts = {
+export const defaultDeriveKeyOpts: DeriveKeyOpts = {
   salt: 's41t',
   iterations: 1,
   keylen: 256 / 8,
   digest: 'sha512',
 };
 
-const deriveKey = (
+export const deriveKey = (
   password: StringLike,
   options?: DeriveKeyOpts,
 ) => {
