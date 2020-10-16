@@ -295,3 +295,5 @@ $RECYCLE.BIN/
 # .pnp.*
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv,windows,linux,macos,node,yarn,react,typings,test
+
+release.sh

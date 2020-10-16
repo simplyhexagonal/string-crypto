@@ -2,7 +2,24 @@
   "name": "string-crypto",
   "version": "1.0.4",
   "description": "Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
-  "keywords": ["encryption", "decryption", "string", "PBKDF2", "AES", "cipheriv", "NodeJS", "crypto", "encrypt", "decrypt", "security"],
+  "keywords": [
+    "encryption",
+    "decryption",
+    "string",
+    "PBKDF2",
+    "AES",
+    "cipheriv",
+    "NodeJS",
+    "crypto",
+    "encrypt",
+    "decrypt",
+    "security"
+  ],
+  "homepage": "https://shortunique.id",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jeanlescure/string-crypto"
+  },
   "main": "dist/index.js",
   "author": "Jean M. Lescure",
   "license": "Apache-2.0",
