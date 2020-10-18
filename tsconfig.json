@@ -9,7 +9,13 @@
     "target": "ES5",
     "sourceMap": true,
     "pretty": true,
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "outDir":"dist"
   },
-  "include": ["src"]
+  "include": [
+    "./src"
+  ],
+  "files": [
+    "./src/index.d.ts"
+  ]
 }

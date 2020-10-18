@@ -1,19 +1,15 @@
 import assert from 'assert';
-import StringCrypto, {
-  Digest,
-  deriveKey,
-  defaultDeriveKeyOpts,
-} from './src';
+import StringCrypto from '.';
 
 const testPassword = 'test';
 const testMessage = 'Hello World';
 
-const derivedKey = deriveKey(testPassword, defaultDeriveKeyOpts).toString();
+let sc = new StringCrypto();
+
+const derivedKey = sc.deriveKey(testPassword, StringCrypto.defaultDeriveKeyOpts).toString();
 
 assert(derivedKey !== testPassword);
 assert(derivedKey.length === 30);
-
-let sc = new StringCrypto();
 
 const messageEncWDefaults = sc.encryptString(testMessage, testPassword);
 

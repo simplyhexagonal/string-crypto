@@ -46,7 +46,8 @@ const config = {
   external: [
     // ...Object.keys(pkg.dependencies),
     ...Object.keys(pkg.devDependencies),
-    'fs',
+    'crypto',
+    'buffer',
   ],
 };
 
