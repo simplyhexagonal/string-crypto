@@ -7,6 +7,8 @@
   "compilerOptions": {
     "declaration": true,
     "target": "ES5",
+    "lib": ["ESNext"],
+    "moduleResolution": "node",
     "sourceMap": true,
     "pretty": true,
     "esModuleInterop": true,
