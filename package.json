@@ -27,9 +27,8 @@
   "runkitExampleFilename": "./runkit.js",
   "scripts": {
     "build": "rollup -c && rm -f dist/index.test.d.ts",
-    "link:self": "yarn link && yarn link string-crypto",
-    "dev": "yarn link:self && concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
-    "test": "yarn link:self && ts-node --files ./src/index.test.ts && yarn build && node runkit.js",
+    "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
+    "test": "ts-node --files ./src/index.test.ts && yarn build && node runkit.js",
     "release": "standard-version"
   },
   "devDependencies": {
