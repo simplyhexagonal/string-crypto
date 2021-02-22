@@ -1,5 +1,10 @@
+![String Crypto logo depicting a ball of yarn being weaved by a vintage looking key](https://assets.jeanlescure.io/string-crypto-logo.svg)
+
 # String Crypto
 
+![Tests](https://github.com/jeanlescure/string-crypto/workflows/tests/badge.svg)
+[![Try string-crypto on RunKit](https://badge.runkitcdn.com/string-crypto.svg)](https://npm.runkit.com/string-crypto)
+[![NPM Downloads](https://img.shields.io/npm/dt/string-crypto.svg?maxAge=2592000)](https://npmjs.com/package/string-crypto)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
@@ -9,6 +14,44 @@ Small and and simple (yet secure) library to encrypt and decrypt strings using P
 This project is open to updates by its users, I ensure that PRs are relevant to the community.
 In other words, if you find a bug or want a new feature, please help us by becoming one of the
 [contributors](#contributors-) ✌️ ! See the [contributing section](#contributing).
+
+## v2 Breaking Changes
+
+- 🚨 This new version is unable to decrypt strings encrypted by v1!
+
+I've refactored out the usage of external libraries. These libraries used extra steps that only added
+unnecessary computational overhead with no cryptographic advantages.
+
+These extra steps did cause enough byte differences as to make strings encrypted with v1 unable to be
+decrypted by v2.
+
+- The `keylen` option has been removed and is now managed automagically by Node's `crypto` native
+module, depending on the chosen key digest.
+
+## v2 New Features
+
+String Crypto v2 allows for 12 more key digests, for a total of 19:
+
+- blake2b512
+- blake2s256
+- md4
+- md5
+- md5-sha1
+- mdc2
+- ripemd160
+- sha1
+- sha224
+- sha256
+- sha3-224
+- sha3-256
+- sha3-384
+- sha3-512
+- sha384
+- sha512
+- sha512-224
+- sha512-256
+- sm3
+- whirlpool
 
 ## Like this module? ❤
 
@@ -49,8 +92,7 @@ console.log('Decrypted String:', decryptString(encryptedString, password));
 const options = {
   salt: '2f0ijf2039j23r09j2fg45o9ng98um4o',
   iterations: 10,
-  keylen: 256 / 8, // must be equivalent to 16, 24 or 32 bytes
-  digest: 'sha512' as const, // one of: 'md5' | 'sha1' | 'sha224' | 'sha256' | 'sha384' | 'sha512' | 'rmd160' | 'ripemd160'
+  digest: 'sha512' as const, // one of: 'blake2b512' | 'blake2s256' | 'md4' | 'md5' | 'md5-sha1' | 'mdc2' | 'ripemd160' | 'sha1' | 'sha224' | 'sha256' | 'sha3-224' | 'sha3-256' | 'sha3-384' | 'sha3-512' | 'sha384' | 'sha512' | 'sha512-224' | 'sha512-256' | 'sm3' | 'whirlpool';
 };
 
 const {
