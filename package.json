@@ -29,7 +29,8 @@
     "build": "rollup -c && rm -f dist/index.test.d.ts",
     "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
     "prepare": "yarn link && yarn link string-crypto",
-    "test": "ts-node --files ./src/index.test.ts && yarn build && node runkit.js"
+    "test": "ts-node --files ./src/index.test.ts && yarn build && node runkit.js",
+    "release": "standard-version"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
@@ -44,6 +45,7 @@
     "rollup": "^2.27.1",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
+    "standard-version": "^9.1.1",
     "ts-node": "^9.0.0",
     "tslib": "^2.1.0",
     "typescript": "^4.0.3"
