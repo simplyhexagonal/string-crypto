@@ -48,6 +48,7 @@ const config = {
     ...Object.keys(pkg.devDependencies),
     'crypto',
     'buffer',
+    'tslib',
   ],
 };
 

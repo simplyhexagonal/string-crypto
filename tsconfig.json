@@ -9,6 +9,7 @@
     "target": "ES5",
     "lib": ["ESNext"],
     "moduleResolution": "node",
+    "noEmitHelpers": true,
     "sourceMap": true,
     "pretty": true,
     "esModuleInterop": true,

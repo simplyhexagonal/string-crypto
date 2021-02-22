@@ -30,10 +30,11 @@ class StringCrypto {
       salt,
       iterations,
       digest,
-    } = {
-      ...StringCrypto.defaultDeriveKeyOpts,
-      ...options,
-    };
+    } = Object.assign(
+      {},
+      StringCrypto.defaultDeriveKeyOpts,
+      options,
+    );
 
     return pbkdf2Sync(password, salt, iterations, KEYLEN, digest);
   };
