@@ -30,7 +30,7 @@ module, depending on the chosen key digest.
 
 ## v2 New Features
 
-String Crypto v2 allows for 12 more key digests, for a total of 19:
+String Crypto v2 allows for 12 more key digests, for a total of 20:
 
 - blake2b512
 - blake2s256
