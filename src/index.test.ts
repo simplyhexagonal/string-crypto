@@ -20,7 +20,6 @@ assert(sc.decryptString(messageEncWDefaults, testPassword) === testMessage);
 sc = new StringCrypto({
   salt: 's41t',
   iterations: 10,
-  keylen: 128 / 8,
   digest: 'md5',
 });
 
@@ -33,14 +32,26 @@ assert(messageEncWCustomOpts.length > testMessage.length);
 assert(sc.decryptString(messageEncWCustomOpts, testPassword) === testMessage);
 
 [
+  'blake2b512',
+  'blake2s256',
+  'md4',
   'md5',
+  'md5-sha1',
+  'mdc2',
+  'ripemd160',
   'sha1',
   'sha224',
   'sha256',
+  'sha3-224',
+  'sha3-256',
+  'sha3-384',
+  'sha3-512',
   'sha384',
   'sha512',
-  'rmd160',
-  'ripemd160'
+  'sha512-224',
+  'sha512-256',
+  'sm3',
+  'whirlpool'
 ].forEach((digest: Digest) => {
   sc = new StringCrypto({ digest });
   const messageEncWCustomDigest = sc.encryptString(testMessage, testPassword);

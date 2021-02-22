@@ -1,33 +1,16 @@
-import { randomBytes } from 'crypto';
-
-import { pbkdf2Sync } from 'pbkdf2';
 import {
-  utils,
-  ModeOfOperation,
-} from 'aes-js';
+  randomBytes,
+  pbkdf2Sync,
+  createCipheriv,
+  createDecipheriv,
+} from 'crypto';
 
-const {
-  hex,
-  utf8,
-} = utils;
-
-const {
-  cbc,
-} = ModeOfOperation;
-
-const atob = (str: string): string => {
-  return Buffer.from(str, 'base64').toString('binary');
-};
-
-const btoa = (str: string): string => {
-  return Buffer.from(str, 'binary').toString('base64');
-};
+const KEYLEN = 256 / 8; // Because we use aes-256-gcm
 
 class StringCrypto {
   static defaultDeriveKeyOpts: DeriveKeyOpts = {
     salt: 's41t',
     iterations: 1,
-    keylen: 256 / 8,
     digest: 'sha512',
   };
 
@@ -46,40 +29,31 @@ class StringCrypto {
     const {
       salt,
       iterations,
-      keylen,
       digest,
     } = {
       ...StringCrypto.defaultDeriveKeyOpts,
       ...options,
     };
-  
-    return pbkdf2Sync(password, salt, iterations, keylen, digest);
+
+    return pbkdf2Sync(password, salt, iterations, KEYLEN, digest);
   };
 
   encryptString = (
     str: StringLike,
     password: StringLike,
   ): string => {
-    let base64String: string = btoa(unescape(encodeURIComponent(str.toString())));
-    const mod16Len = base64String.length % 16;
-
-    if (mod16Len !== 0) {
-      base64String += '='.repeat(16 - mod16Len);
-    }
-
-    const stringBytes = utf8.toBytes(base64String);
-
     const derivedKey = this.deriveKey(password, this._deriveKeyOptions);
 
     const randomInitVector = randomBytes(16);
 
-    const aesCBC = new cbc(derivedKey, randomInitVector);
+    const aesCBC = createCipheriv('aes-256-gcm', derivedKey, randomInitVector);
 
-    const encryptedBytes = aesCBC.encrypt(stringBytes);
+    let encryptedBase64 = aesCBC.update(str.toString(), 'utf8', 'base64');
+    encryptedBase64 += aesCBC.final('base64');
 
-    const encryptedHex = hex.fromBytes(encryptedBytes);
+    const encryptedHex = Buffer.from(encryptedBase64).toString('hex');
 
-    const initVectorHex = hex.fromBytes(randomInitVector);
+    const initVectorHex = randomInitVector.toString('hex');
 
     return `${initVectorHex}:${encryptedHex}`;
   };
@@ -101,17 +75,15 @@ class StringCrypto {
       encryptedHex,
     ] = encryptedParts;
 
-    const randomInitVector = hex.toBytes(initVectorHex);
+    const randomInitVector = Buffer.from(initVectorHex, 'hex');
 
-    const encryptedBytes = hex.toBytes(encryptedHex);
+    const encryptedBase64 = Buffer.from(encryptedHex, 'hex').toString();
 
-    const aesCBC = new cbc(derivedKey, randomInitVector);
+    const aesCBC = createDecipheriv('aes-256-gcm', derivedKey, randomInitVector);
 
-    const stringBytes = aesCBC.decrypt(encryptedBytes);
+    let decrypted = aesCBC.update(encryptedBase64, 'base64');
 
-    let base64String = utf8.fromBytes(stringBytes);
-
-    return decodeURIComponent(escape(atob(base64String)));
+    return decrypted.toString();
   };
 }
 

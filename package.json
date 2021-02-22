@@ -47,9 +47,5 @@
     "ts-node": "^9.0.0",
     "tslib": "^2.1.0",
     "typescript": "^4.0.3"
-  },
-  "dependencies": {
-    "aes-js": "^3.1.2",
-    "pbkdf2": "^3.1.1"
   }
 }

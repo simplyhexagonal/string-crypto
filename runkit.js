@@ -21,6 +21,7 @@ const {
 } = new StringCrypto({
   salt: '2f0ijf2039j23r09j2fg45o9ng98um4o',
   iterations: 10,
+  digest: 'sha3-512',
 });
 
 encryptedString = saferEncrypt(topSecret, password);
