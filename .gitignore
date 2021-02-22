@@ -293,6 +293,7 @@ $RECYCLE.BIN/
 # Uncomment the following lines if you're not using Zero-Installs:
 .yarn/cache
 .pnp.*
+.yarn/install-state.gz
 
 # End of https://www.toptal.com/developers/gitignore/api/dotenv,windows,linux,macos,node,yarn,react,typings,test
 
