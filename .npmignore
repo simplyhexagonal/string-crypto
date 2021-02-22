@@ -2,4 +2,6 @@
 *.tgz
 .vscode
 .github
+.yarn*
+.pnp.*
 release.sh
