@@ -29,7 +29,7 @@
     "build": "rollup -c && rm -f dist/index.test.d.ts",
     "link:self": "yarn link && yarn link string-crypto",
     "dev": "yarn link:self && concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
-    "test": "link:self && ts-node --files ./src/index.test.ts && yarn build && node runkit.js",
+    "test": "yarn link:self && ts-node --files ./src/index.test.ts && yarn build && node runkit.js",
     "release": "standard-version"
   },
   "devDependencies": {
