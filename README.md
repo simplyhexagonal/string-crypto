@@ -79,7 +79,7 @@ const {
   decryptString,
 } = new StringCrypto();
 
-let encryptedString = encryptString(topSecret, password);
+let encryptedString = encryptString(stringToProtect, password);
 
 console.log('Encrypted String:', encryptedString);
 
