@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-const { Command } = require('commander');
+const { Command } = require('./commander.js');
 const StringCrypto = require('../dist/index.js'); // Adjust the path as necessary
 
 const { version } = require('../package.json');
