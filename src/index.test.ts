@@ -1,62 +1,28 @@
 import assert from 'assert';
-import StringCrypto from '.';
+import StringCrypto from '.'; // Ensure this path matches the actual file location
 
 const testPassword = 'test';
 const testMessage = 'Hello World';
 
 let sc = new StringCrypto();
 
-const derivedKey = sc.deriveKey(testPassword, StringCrypto.defaultDeriveKeyOpts).toString();
-
-assert(derivedKey !== testPassword);
-assert(derivedKey.length === 30);
-
+// Testing with default options
 const messageEncWDefaults = sc.encryptString(testMessage, testPassword);
+assert(messageEncWDefaults !== testMessage, 'Encrypted message should not match the original message');
+assert(messageEncWDefaults.includes(':'), 'Encrypted message should include a separator for IV');
+assert(sc.decryptString(messageEncWDefaults, testPassword) === testMessage, 'Decrypted message should match the original message');
 
-assert(messageEncWDefaults !== testMessage);
-assert(messageEncWDefaults.length > testMessage.length);
-assert(sc.decryptString(messageEncWDefaults, testPassword) === testMessage);
-
-sc = new StringCrypto({
+// Testing with custom options
+const customOptions = {
   salt: 's41t',
   iterations: 10,
-  digest: 'md5',
-});
+  keySize: 256 / 32, // Explicitly specifying keySize for clarity, though it's the same as the default
+};
+sc = new StringCrypto(customOptions);
 
 const messageEncWCustomOpts = sc.encryptString(testMessage, testPassword);
+assert(messageEncWCustomOpts !== messageEncWDefaults, 'Encrypted message with custom options should differ from the default');
+assert(messageEncWCustomOpts !== testMessage, 'Encrypted message should not match the original message');
+assert(sc.decryptString(messageEncWCustomOpts, testPassword) === testMessage, 'Decrypted message should match the original message');
 
-assert(messageEncWCustomOpts !== messageEncWDefaults);
-assert(messageEncWCustomOpts.length === messageEncWDefaults.length);
-assert(messageEncWCustomOpts !== testMessage);
-assert(messageEncWCustomOpts.length > testMessage.length);
-assert(sc.decryptString(messageEncWCustomOpts, testPassword) === testMessage);
-
-[
-  'blake2b512',
-  'blake2s256',
-  'md4',
-  'md5',
-  'md5-sha1',
-  'mdc2',
-  'ripemd160',
-  'sha1',
-  'sha224',
-  'sha256',
-  'sha3-224',
-  'sha3-256',
-  'sha3-384',
-  'sha3-512',
-  'sha384',
-  'sha512',
-  'sha512-224',
-  'sha512-256',
-  'sm3',
-  'whirlpool'
-].forEach((digest: Digest) => {
-  sc = new StringCrypto({ digest });
-  const messageEncWCustomDigest = sc.encryptString(testMessage, testPassword);
-
-  assert(messageEncWCustomDigest !== testMessage);
-  assert(messageEncWCustomDigest.length > testMessage.length);
-  assert(sc.decryptString(messageEncWCustomDigest, testPassword) === testMessage);
-});
+console.log('All tests passed.');

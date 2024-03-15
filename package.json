@@ -1,7 +1,7 @@
 {
   "name": "string-crypto",
-  "version": "2.0.2",
-  "description": "Small and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
+  "version": "3.0.0",
+  "description": "Small, simple, and secure no-dependency library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
   "keywords": [
     "encryption",
     "decryption",
@@ -13,23 +13,33 @@
     "crypto",
     "encrypt",
     "decrypt",
-    "security"
+    "security",
+    "cli"
   ],
-  "homepage": "https://jeanlescure.github.io/string-crypto/",
+  "homepage": "https://simplyhexagonal.github.io/string-crypto/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/jeanlescure/string-crypto"
+    "url": "https://github.com/simplyhexagonal/string-crypto"
   },
   "main": "dist/index.js",
   "author": "Jean M. Lescure",
   "license": "Apache-2.0",
   "types": "dist/index.d.ts",
   "runkitExampleFilename": "./runkit.js",
+  "bin": {
+    "string-crypto": "./bin/index.js"
+  },
+  "files": [
+    "package.json",
+    "bin",
+    "dist",
+    "runkit.js",
+    "README.md"
+  ],
   "scripts": {
-    "build": "rollup -c && rm -f dist/index.test.d.ts",
+    "build": "rollup -c && rm -f dist/*.d.ts && cp src/index.d.ts dist/index.d.ts",
     "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
-    "test": "ts-node --files ./src/index.test.ts && yarn build && node runkit.js",
-    "release": "standard-version"
+    "test": "tsx ./src/index.test.ts && npm run build && node runkit.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
@@ -37,16 +47,18 @@
     "@rollup/plugin-node-resolve": "^9.0.0",
     "@rollup/plugin-replace": "^2.3.3",
     "@types/aes-js": "^3.1.1",
-    "@types/node": "^14.11.2",
+    "@types/crypto-js": "^4.2.2",
+    "@types/node": "^20.11.27",
     "@types/pbkdf2": "^3.1.0",
+    "commander": "^12.0.0",
     "concurrently": "^5.3.0",
-    "nodemon": "^2.0.4",
+    "crypto-js": "^4.2.0",
+    "nodemon": "^3.1.0",
     "rollup": "^2.27.1",
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.27.2",
-    "standard-version": "^9.1.1",
-    "ts-node": "^9.0.0",
-    "tslib": "^2.1.0",
-    "typescript": "^4.0.3"
+    "tslib": "^2.6.2",
+    "tsx": "^4.7.1",
+    "typescript": "^5.4.2"
   }
 }

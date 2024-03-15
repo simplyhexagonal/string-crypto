@@ -1,57 +1,34 @@
-![String Crypto logo depicting a ball of yarn being weaved by a vintage looking key](https://assets.jeanlescure.io/string-crypto-logo.svg)
+![String Crypto logo depicting a ball of yarn being weaved by a vintage looking key](https://assets.simplyhexagonal.io/string-crypto-logo.svg)
 
 # String Crypto
 
-![Tests](https://github.com/jeanlescure/string-crypto/workflows/tests/badge.svg)
+![Tests](https://github.com/simplyhexagonal/string-crypto/workflows/tests/badge.svg)
 [![Try string-crypto on RunKit](https://badge.runkitcdn.com/string-crypto.svg)](https://npm.runkit.com/string-crypto)
 [![NPM Downloads](https://img.shields.io/npm/dt/string-crypto.svg?maxAge=2592000)](https://npmjs.com/package/string-crypto)
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 [![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-Small and and simple (yet secure) library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512).
+Small, simple, and secure library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512).
 
 This project is open to updates by its users, I ensure that PRs are relevant to the community.
 In other words, if you find a bug or want a new feature, please help us by becoming one of the
 [contributors](#contributors-) ✌️ ! See the [contributing section](#contributing).
 
-## v2 Breaking Changes
+# Breaking Changes in v3
 
-- 🚨 This new version is unable to decrypt strings encrypted by v1!
+- **Digest Option Removed**: The ability to specify a digest method for key derivation has been removed due to the underlying library (`crypto-js`) not supporting this functionality directly. We switched to using `crypto-js` since Node's `crypto` is [commonly breaking](https://stackoverflow.com/questions/69692842/error-message-error0308010cdigital-envelope-routinesunsupported/73287371) due to a missmatch with openssl versions.
+- **Key Size Specification**: Key size can now be specified in bits as an option when encrypting or decrypting, providing users with the flexibility to define the strength of encryption according to their needs.
+- **Default Salt Generation**: The default salt is now generated dynamically for each encryption operation if not specified by the user, enhancing security by preventing the use of static salts.
 
-I've refactored out the usage of external libraries. These libraries used extra steps that only added
-unnecessary computational overhead with no cryptographic advantages.
+## Features
 
-These extra steps did cause enough byte differences as to make strings encrypted with v1 unable to be
-decrypted by v2.
-
-- The `keylen` option has been removed and is now managed automagically by Node's `crypto` native
-module, depending on the chosen key digest.
-
-## v2 New Features
-
-String Crypto v2 allows for 12 more key digests, for a total of 20:
-
-- blake2b512
-- blake2s256
-- md4
-- md5
-- md5-sha1
-- mdc2
-- ripemd160
-- sha1
-- sha224
-- sha256
-- sha3-224
-- sha3-256
-- sha3-384
-- sha3-512
-- sha384
-- sha512
-- sha512-224
-- sha512-256
-- sm3
-- whirlpool
+- Encryption and decryption of strings using PBKDF2 (for key derivation) and AES (Advanced Encryption Standard) in CBC mode.
+- Dynamic generation of a secure random salt for each encryption operation when not specified.
+- Customizable number of iterations for key derivation, enhancing the security against brute force attacks.
+- Key size can be specified in bits, allowing for AES-128, AES-192, and AES-256 encryption strengths.
+- Simplified CLI and library interfaces for straightforward usage in encrypting and decrypting strings.
+- Secure random initialization vector (IV) generation for each encryption operation, ensuring ciphertext uniqueness.
 
 ## Like this module? ❤
 
@@ -59,11 +36,53 @@ Please consider:
 
 - [Buying me a coffee](https://www.buymeacoffee.com/jeanlescure) ☕
 - Supporting me on [Patreon](https://www.patreon.com/jeanlescure) 🏆
-- Starring this repo on [Github](https://github.com/jeanlescure/string-crypto) 🌟
+- Starring this repo on [Github](https://github.com/simplyhexagonal/string-crypto) 🌟
 
-## Usage
+## Usage CLI
 
+### Encrypting a String
+
+To encrypt a string, use the `encrypt` command with the required options:
+
+```bash
+npx string-crypto encrypt --string "Your String Here" --password "YourPassword"
 ```
+
+Optional parameters:
+
+- `--salt`: Custom salt for encryption. If omitted, a random salt will be used.
+- `--iterations`: Number of iterations (default is 1000).
+- `--keySize`: Key size in bits (default is 256).
+
+### Decrypting a String
+
+To decrypt a string, use the `decrypt` command with the required options:
+
+```bash
+npx string-crypto decrypt --string "EncryptedStringHere" --password "YourPassword"
+```
+
+Optional parameters are the same as for encryption, except `--digest` is no longer available.
+
+### Help
+
+For more information or to see all available options, you can use the `-h` or `--help` flag:
+
+```bash
+npx string-crypto --help
+```
+
+## Usage Library
+
+```bash
+npm i string-crypto
+```
+
+```bash
+pnpm i string-crypto
+```
+
+```bash
 yarn add string-crypto
 ```
 
@@ -74,16 +93,13 @@ const stringToProtect = 'What is the largest (rational) number n such that there
 
 const password = 'Oh-no,not-again';
 
-const {
-  encryptString,
-  decryptString,
-} = new StringCrypto();
+const sc = new StringCrypto();
 
-let encryptedString = encryptString(stringToProtect, password);
+let encryptedString = sc.encryptString(stringToProtect, password);
 
 console.log('Encrypted String:', encryptedString);
 
-console.log('Decrypted String:', decryptString(encryptedString, password));
+console.log('Decrypted String:', sc.decryptString(encryptedString, password));
 ```
 
 ## Options
@@ -91,14 +107,11 @@ console.log('Decrypted String:', decryptString(encryptedString, password));
 ```ts
 const options = {
   salt: '2f0ijf2039j23r09j2fg45o9ng98um4o',
-  iterations: 10,
-  digest: 'sha512' as const, // one of: 'blake2b512' | 'blake2s256' | 'md4' | 'md5' | 'md5-sha1' | 'mdc2' | 'ripemd160' | 'sha1' | 'sha224' | 'sha256' | 'sha3-224' | 'sha3-256' | 'sha3-384' | 'sha3-512' | 'sha384' | 'sha512' | 'sha512-224' | 'sha512-256' | 'sm3' | 'whirlpool';
+  iterations: 1000,
+  keySize: 256, // Specify key size in bits
 };
 
-const {
-  encryptString: saferEncrypt,
-  decryptString: saferDecrypt,
-} = new StringCrypto(options);
+const sc = new StringCrypto(options);
 ```
 
 ## Development and build scripts

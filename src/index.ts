@@ -1,90 +1,74 @@
-import {
-  randomBytes,
-  pbkdf2Sync,
-  createCipheriv,
-  createDecipheriv,
-} from 'crypto';
+import CryptoJS from 'crypto-js';
 
-const KEYLEN = 256 / 8; // Because we use aes-256-gcm
+interface DeriveKeyOpts {
+  salt: string;
+  iterations: number;
+  keySize?: number; // Key size in words, not bytes
+}
 
 class StringCrypto {
   static defaultDeriveKeyOpts: DeriveKeyOpts = {
-    salt: 's41t',
-    iterations: 1,
-    digest: 'sha512',
+    salt: CryptoJS.lib.WordArray.random(128 / 8).toString(CryptoJS.enc.Hex),
+    iterations: 1000, // It's recommended to use a higher number of iterations for PBKDF2
+    keySize: 256 / 32, // CryptoJS uses words (1 word = 32 bits), and AES-256 requires a 256-bit key
   };
 
   private _deriveKeyOptions: DeriveKeyOpts;
 
   constructor(options?: DeriveKeyOpts) {
-    if (options) {
-      this._deriveKeyOptions = options;
-    }
+    this._deriveKeyOptions = {
+      ...StringCrypto.defaultDeriveKeyOpts,
+      ...options,
+    };
   }
 
   deriveKey = (
-    password: StringLike,
+    password: string,
     options?: DeriveKeyOpts,
-  ) => {
-    const {
-      salt,
-      iterations,
-      digest,
-    } = Object.assign(
-      {},
-      StringCrypto.defaultDeriveKeyOpts,
-      options,
-    );
-
-    return pbkdf2Sync(password, salt, iterations, KEYLEN, digest);
+  ): CryptoJS.lib.WordArray => {
+    const opts = {
+      ...this._deriveKeyOptions,
+      ...options,
+    };
+    const key = CryptoJS.PBKDF2(password, CryptoJS.enc.Hex.parse(opts.salt), {
+      keySize: opts.keySize,
+      iterations: opts.iterations,
+    });
+    return key;
   };
 
   encryptString = (
-    str: StringLike,
-    password: StringLike,
+    str: string,
+    password: string,
   ): string => {
-    const derivedKey = this.deriveKey(password, this._deriveKeyOptions);
+    const derivedKey = this.deriveKey(password);
+    const iv = CryptoJS.lib.WordArray.random(128 / 8);
+    const encrypted = CryptoJS.AES.encrypt(str, derivedKey, {
+      mode: CryptoJS.mode.CBC,
+      iv: iv,
+    });
 
-    const randomInitVector = randomBytes(16);
-
-    const aesCBC = createCipheriv('aes-256-gcm', derivedKey, randomInitVector);
-
-    let encryptedBase64 = aesCBC.update(str.toString(), 'utf8', 'base64');
-    encryptedBase64 += aesCBC.final('base64');
-
-    const encryptedHex = Buffer.from(encryptedBase64).toString('hex');
-
-    const initVectorHex = randomInitVector.toString('hex');
-
-    return `${initVectorHex}:${encryptedHex}`;
+    // Concatenate IV and ciphertext for the complete encrypted string
+    const encryptedStr = iv.toString(CryptoJS.enc.Hex) + ':' + encrypted.toString();
+    return encryptedStr;
   };
 
   decryptString = (
-    encryptedStr: StringLike,
-    password: StringLike,
+    encryptedStr: string,
+    password: string,
   ): string => {
-    const derivedKey = this.deriveKey(password, this._deriveKeyOptions);
+    const parts = encryptedStr.split(':');
+    const iv = CryptoJS.enc.Hex.parse(parts[0]);
+    const ciphertext = parts[1];
+    const derivedKey = this.deriveKey(password);
 
-    const encryptedParts: string[] = encryptedStr.toString().split(':');
+    const decrypted = CryptoJS.AES.decrypt(ciphertext, derivedKey, {
+      mode: CryptoJS.mode.CBC,
+      iv: iv,
+    });
 
-    if (encryptedParts.length !== 2) {
-      throw new Error(`Incorrect format for encrypted string: ${encryptedStr}`);
-    }
-
-    const [
-      initVectorHex,
-      encryptedHex,
-    ] = encryptedParts;
-
-    const randomInitVector = Buffer.from(initVectorHex, 'hex');
-
-    const encryptedBase64 = Buffer.from(encryptedHex, 'hex').toString();
-
-    const aesCBC = createDecipheriv('aes-256-gcm', derivedKey, randomInitVector);
-
-    let decrypted = aesCBC.update(encryptedBase64, 'base64');
-
-    return decrypted.toString();
+    const decryptedStr = decrypted.toString(CryptoJS.enc.Utf8);
+    return decryptedStr;
   };
 }
 
