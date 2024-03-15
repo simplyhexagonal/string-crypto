@@ -20,7 +20,7 @@ const plugins = [
   }),
   nodeResolve(),
   commonjs({
-    sourceMap: true,
+    sourceMap: false,
   }),
   replace({
     'process.env.NODE_ENV': JSON.stringify(
@@ -41,7 +41,7 @@ const config = {
   output: {
     file: 'dist/index.js',
     format: 'cjs',
-    sourcemap: true,
+    sourcemap: false,
     exports: 'default',
   },
   plugins,
