@@ -15,7 +15,7 @@ jobs:
   # This workflow contains a single job called "test"
   test:
     # The type of runner that the job will run on
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-22.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -25,14 +25,11 @@ jobs:
     - name: Setup Node
       uses: actions/setup-node@v1
       with:
-        node-version: '10.x'
+        node-version: '14.x'
 
     # Runs a single command using the runners shell
-    - name: Install Yarn
-      run: npm install -g yarn
-
     - name: Install Dependencies
-      run: yarn
+      run: npm install
 
     - name: Test
-      run: yarn test
+      run: npm run test

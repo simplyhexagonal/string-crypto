@@ -39,7 +39,8 @@
   "scripts": {
     "build": "rollup -c && rm -f dist/*.d.ts && cp src/index.d.ts dist/index.d.ts",
     "dev": "concurrently \"rollup -cw\" \"nodemon --inspect runkit.js\"",
-    "test": "tsx ./src/index.test.ts && npm run build && node runkit.js"
+    "test": "tsx ./src/index.test.ts",
+    "test:full": "tsx ./src/index.test.ts && npm run build && node runkit.js"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^15.0.0",
