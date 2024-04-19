@@ -1,6 +1,6 @@
 {
   "name": "string-crypto",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Small, simple, and secure no-dependency library to encrypt and decrypt strings using PBKDF2 for key derivation and AES (defaulted to 256-bit / SHA512)",
   "keywords": [
     "encryption",

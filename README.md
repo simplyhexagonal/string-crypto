@@ -1,4 +1,4 @@
-![String Crypto logo depicting a ball of yarn being weaved by a vintage looking key](https://assets.simplyhexagonal.io/string-crypto-logo.svg)
+![String Crypto logo depicting a ball of yarn being weaved by a vintage looking key](https://assets.jeanlescure.io/string-crypto-logo.svg)
 
 # String Crypto
 
